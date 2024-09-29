@@ -10,25 +10,24 @@ from tools.print_images_and_lables_4 import PrintImagesAndLables
 from models.LeNet import LeNet
 from tools.get_device_type import device
 
-transform = transforms.Compose([transforms.ToTensor()])
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=transform)
-mean, std = calculate_mean_standardDeviation.GetMeanStd(
-    trainset).get_mean_std()
-transform = transforms.Compose([transforms.ToTensor(),
-                                transforms.Normalize(mean, std)
-                                ])
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        transform=transform)
-trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=4, shuffle=True, num_workers=2)
-
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       transform=transform)
-testloader = torch.utils.data.DataLoader(
-    testset, batch_size=4, shuffle=False, num_workers=2)
-
 if __name__ == '__main__':
+    transform = transforms.Compose([transforms.ToTensor()])
+    trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                            download=True, transform=transform)
+    mean, std = calculate_mean_standardDeviation.GetMeanStd(
+        trainset).get_mean_std()
+    transform = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Normalize(mean, std)
+                                    ])
+    trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                            transform=transform)
+    trainloader = torch.utils.data.DataLoader(
+        trainset, batch_size=4, shuffle=True, num_workers=2)
+
+    testset = torchvision.datasets.CIFAR10(root='./data', train=False,
+                                           transform=transform)
+    testloader = torch.utils.data.DataLoader(
+        testset, batch_size=4, shuffle=False, num_workers=2)
     classes = ('plane', 'car', 'bird', 'cat',
                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
     # PrintImagesAndLables(trainloader, classes).show_images()
