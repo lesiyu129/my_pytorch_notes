@@ -9,6 +9,7 @@ import numpy as np
 from tools.print_images_and_lables_4 import PrintImagesAndLables
 from models.LeNet import LeNet
 from tools.get_device_type import device
+import os
 
 
 class Demo1:
@@ -73,4 +74,8 @@ class Demo1:
 
         print('Accuracy of the network on the 10000 test images: %d %%' % (
             100 * correct / total))
+
+        # 判断文件夹是否存在
+        if not os.path.exists("./saveModels"):
+            os.mkdir("./saveModels")
         torch.save(model.state_dict(), "./saveModels/leNetModel.pth")
