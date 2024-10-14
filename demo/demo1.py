@@ -19,26 +19,27 @@ class Demo1:
 
     def run(self):
         transform = transforms.Compose([transforms.ToTensor()])
-        trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                                download=True, transform=transform)
+        trainset = torchvision.datasets.MNIST(root='./data', train=True,
+                                              download=True, transform=transform)
         mean, std = calculate_mean_standardDeviation.GetMeanStd(
             trainset).get_mean_std()
         transform = transforms.Compose([transforms.ToTensor(),
+                                        transforms.Resize((32, 32)),
                                         transforms.Normalize(mean, std)
                                         ])
-        trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                                transform=transform)
+        trainset = torchvision.datasets.MNIST(root='./data', train=True,
+                                              transform=transform)
         trainloader = torch.utils.data.DataLoader(
             trainset, batch_size=64, shuffle=True, num_workers=2)
 
-        testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                               transform=transform)
+        testset = torchvision.datasets.MNIST(root='./data', train=False,
+                                             transform=transform)
         testloader = torch.utils.data.DataLoader(
             testset, batch_size=64, shuffle=False, num_workers=2)
         classes = ('plane', 'car', 'bird', 'cat',
                    'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
         # PrintImagesAndLables(trainloader, classes).show_images()
-        model = LeNet().to(device=device)
+        model = LeNet(10).to(device=device)
         criterion = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
         model.train()
