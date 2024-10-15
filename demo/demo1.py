@@ -41,7 +41,8 @@ class Demo1:
         # PrintImagesAndLables(trainloader, classes).show_images()
         model = LeNet(10).to(device=device)
         criterion = torch.nn.CrossEntropyLoss()
-        optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+        optimizer = torch.optim.Adam(
+            model.parameters(), lr=0.001)
         model.train()
         for epoch in range(self.num_epochs):
             running_loss = 0.0
@@ -73,8 +74,8 @@ class Demo1:
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
 
-        print('Accuracy of the network on the 10000 test images: %d %%' % (
-            100 * correct / total))
+        print('Accuracy of the network on the %d test images: %d %%' % (
+            total, 100 * correct / total))
 
         # 判断文件夹是否存在
         if not os.path.exists("./saveModels"):
